@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
   <meta charset="UTF-8">
-  <title>Menu Quán Mì Cao Cấp</title>
+  <title> Menu Quán Mì Cao Cấp    </title>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
   <style>
     body {
@@ -30,8 +31,13 @@
     }
 
     @keyframes spin {
-      from { transform: rotate(0deg); }
-      to { transform: rotate(360deg); }
+      from {
+        transform: rotate(0deg);
+      }
+
+      to {
+        transform: rotate(360deg);
+      }
     }
 
     nav {
@@ -82,7 +88,8 @@
       padding: 30px;
     }
 
-    #total, #confirm {
+    #total,
+    #confirm {
       margin-top: 20px;
       font-size: 24px;
       font-weight: bold;
@@ -119,117 +126,108 @@
     }
   </style>
 </head>
+
 <body>
 
-<header>
-  <img src="logo.png" alt="Logo quán mì">
-  <span>Menu Quán Mì Cao Cấp</span>
-</header>
+  <header>
+    <img src="" alt="Logo quán mì ">
+    <span>Menu Quán Mì Cao Cấp  </span>
+  </header>
 
-<nav>
-  <h2>Thực Đơn:</h2>
+  <nav>
+    <h2>Thực Đơn:</h2>
 
-  <div class="menu-item" onclick="order('Mì bò', 50000)">
-    <i class="fa-solid fa-bowl-food"></i>
-    <div>
-      <strong>Mì bò - 50.000đ</strong>
-      <div class="description">Mì mềm, thịt bò hảo hạng, nước dùng đậm vị.</div>
+    <div class="menu-item" onclick="order('Mì 10 loại nhân', 60000)">
+      <i class="fa-solid fa-bowl-food"></i>
+      <div>
+        <strong>Mì 10 loại nhân  - 60.000đ</strong>
+        <div class="description">Mì mềm, TOPPING HẢO HẠN , ĂN LÀ MÊ ! .</div>
+      </div>
     </div>
-  </div>
 
-  <div class="menu-item" onclick="order('Mì gà', 45000)">
-    <i class="fa-solid fa-drumstick-bite"></i>
-    <div>
-      <strong>Mì gà - 45.000đ</strong>
-      <div class="description">Mì dai, thịt gà ta, nước dùng thanh ngọt.</div>
+    <div class="menu-item" onclick="order('Mì Thập cẩm Nhiều Mỳ', 35000)">
+      <i class="fa-solid fa-drumstick-bite"></i>
+      <div>
+        <strong>Mì Thập cẩm Nhiều Mỳ - 35.000đ</strong>
+        <div class="description">Mì hai gói FULLTOPING.</div>
+      </div>
     </div>
-  </div>
 
-  <div class="menu-item" onclick="order('Mì hải sản', 60000)">
-    <i class="fa-solid fa-shrimp"></i>
-    <div>
-      <strong>Mì hải sản - 60.000đ</strong>
-      <div class="description">Mực, tôm tươi ngon, nước dùng cay nhẹ.</div>
+    <div class="menu-item" onclick="order('Mì Đặc Biệtt', 50000)">
+      <i class="fa-solid fa-shrimp"></i>
+      <div>
+        <strong>Mì Đặc Biệtt - 50.000đ</strong>
+        <div class="description">Mì hai gói FULLTOPING Thêm Trứng Thêm bò Khô.</div>
+      </div>
     </div>
-  </div>
 
-  <div class="menu-item" onclick="order('Mì cay cấp 10', 55000)">
-    <i class="fa-solid fa-pepper-hot"></i>
-    <div>
-      <strong>Mì cay cấp 10 - 55.000đ</strong>
-      <div class="description">Thử thách vị giác với độ cay bùng nổ.</div>
+    <div class="menu-item" onclick="order('Mì Thập cẩm 1 mỳ ', 25000)">
+      <i class="fa-solid fa-pepper-hot"></i>
+      <div>
+        <strong>Mì Thập cẩm 1 mỳ - 25.000đ</strong>
+        <div class="description">Mì 1 gói FULLTOOPINGG .</div>
+      </div>
     </div>
-  </div>
 
-  <div class="menu-item" onclick="order('Nước ngọt', 20000)">
-    <i class="fa-solid fa-bottle-water"></i>
-    <div>
-      <strong>Nước ngọt - 20.000đ</strong>
-      <div class="description">Giải khát cực đã với nước ngọt mát lạnh.</div>
+    <div class="menu-item" onclick="order('Nước ngọt', 20000)">
+      <i class="fa-solid fa-bottle-water"></i>
+      <div>
+        <strong>Nước ngọt - 20.000đ</strong>
+        <div class="description">Giải khát cực đã với nước ngọt mát lạnh.</div>
+      </div>
     </div>
-  </div>
 
-  <div class="menu-item" onclick="order('Trà chanh', 15000)">
-    <i class="fa-solid fa-mug-hot"></i>
-    <div>
-      <strong>Trà chanh - 15.000đ</strong>
-      <div class="description">Thơm mát, chua nhẹ, cực sảng khoái.</div>
+    <div class="menu-item" onclick="order('Trà chanh', 15000)">
+      <i class="fa-solid fa-mug-hot"></i>
+      <div>
+        <strong>Trà chanh - 15.000đ</strong>
+        <div class="description">Thơm mát, chua nhẹ, cực sảng khoái.</div>
+      </div>
     </div>
-  </div>
 
-</nav>
+  </nav>
 
-<main>
-  <h1>Đơn hàng của bạn:</h1>
-  <ul id="orderList"></ul>
-  <div id="total">Tổng tiền: 0đ</div>
-  <button id="confirmBtn" onclick="confirmOrder()">Xác nhận giao hàng</button>
-  <button id="cancelBtn" onclick="cancelOrder()">Hủy đơn</button>
-  <div id="confirm"></div>
-</main>
+  <main>
+    <h1>Đơn hàng của bạn:</h1>
+    <ul id="orderList"></ul>
+    <div id="total">Tổng tiền: 0đ</div>
+    <button id="confirmBtn" onclick="confirmOrder()">Đặt hàng</button>
+    <button id="cancelBtn" onclick="cancelOrder()">Hủy đơn</button>
+    <div id="confirm"></div>
+  </main>
 
-<script>
-  let total = 0;
-  let orders = [];
+  <script>
+    let total = 0;
+    let orders = [];
 
-  function order(item, price) {
-    orders.push(`${item} - ${price.toLocaleString()}đ`);
-    total += price;
-    updateOrder();
-  }
-
-  function updateOrder() {
-    document.getElementById('orderList').innerHTML = orders.map(o => `<li>${o}</li>`).join('');
-    document.getElementById('total').innerText = `Tổng tiền: ${total.toLocaleString()}đ`;
-    document.getElementById('confirm').innerText = '';
-  }
-
-  function confirmOrder() {
-    if (orders.length === 0) {
-      document.getElementById('confirm').innerText = "Bạn chưa chọn món nào!";
-    } else {
-      document.getElementById('confirm').innerHTML = `<i class="fa-solid fa-truck"></i> Đơn hàng đã xác nhận và đang giao!`;
+    function order(item, price) {
+      orders.push(`${item} - ${price.toLocaleString()}đ`);
+      total += price;
+      updateOrder();
     }
-  }
 
-  function cancelOrder() {
-    orders = [];
-    total = 0;
-    updateOrder();
-    document.getElementById('confirm').innerText = "Đơn hàng đã được hủy.";
-  }
-</script>
+    function updateOrder() {
+      document.getElementById('orderList').innerHTML = orders.map(o => `<li>${o}</li>`).join('');
+      document.getElementById('total').innerText = `Tổng tiền: ${total.toLocaleString()}đ`;
+      document.getElementById('confirm').innerText = '';
+    }
+
+    function confirmOrder() {
+      if (orders.length === 0) {
+        document.getElementById('confirm').innerText = "Bạn chưa chọn món nào!";
+      } else {
+        document.getElementById('confirm').innerHTML = `<i class="fa-solid fa-truck"></i> Đơn hàng đã xác nhận và đang giao!`;
+      }
+    }
+
+    function cancelOrder() {
+      orders = [];
+      total = 0;
+      updateOrder();
+      document.getElementById('confirm').innerText = "Đơn hàng đã được hủy.";
+    }
+  </script>
 
 </body>
+
 </html>
-    <header>
-        <nav>
-            <ul>
-                <li><a href="#">Trang chủ</a></li>
-                <li><a href="#">Menu</a></li>
-                <li><a href="#">Liên hệ</a></li>
-            </ul>
-        </nav>
-    </header>
-    
-    
