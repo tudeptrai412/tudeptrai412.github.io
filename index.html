@@ -1,12 +1,105 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+  <meta charset="UTF-8">
+  <title>Menu Quán Mì Cao Cấp</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Arial', sans-serif;
+      background: linear-gradient(to right, #ffe4b5, #ffcc99);
+    }
+
+    header {
+      background-color: #d35400;
+      color: white;
+      padding: 20px;
+      text-align: center;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    main {
+      margin-left: 320px;
+      padding: 30px;
+    }
+
+    #pendingOrders {
+      margin-top: 40px;
+      padding: 20px;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    #pendingOrders h2 {
+      color: #c0392b;
+    }
+  </style>
 </head>
 <body>
-    
+
+<header>
+  <h1>Menu Quán Mì Cao Cấp</h1>
+</header>
+
+<main>
+  <h1>Đơn hàng của bạn:</h1>
+  <ul id="orderList"></ul>
+  <div id="total">Tổng tiền: 0đ</div>
+  <button onclick="confirmOrder()">Xác nhận thanh toán</button>
+  <button onclick="cancelOrder()">Hủy đơn</button>
+  <div id="confirm"></div>
+
+  <div id="pendingOrders">
+    <h2>Đơn hàng đang chờ xử lý</h2>
+    <ul id="pendingList"></ul>
+  </div>
+</main>
+
+<script>
+  let total = 0;
+  let orders = [];
+  let pendingOrders = [];
+
+  function order(item, price) {
+    orders.push(`${item} - ${price.toLocaleString()}đ`);
+    total += price;
+    updateOrder();
+  }
+
+  function updateOrder() {
+    document.getElementById('orderList').innerHTML = orders.map(o => `<li>${o}</li>`).join('');
+    document.getElementById('total').innerText = `Tổng tiền: ${total.toLocaleString()}đ`;
+    document.getElementById('confirm').innerText = '';
+  }
+
+  function confirmOrder() {
+    if (orders.length === 0) {
+      document.getElementById('confirm').innerText = "Bạn chưa chọn món nào!";
+    } else {
+      pendingOrders.push({ items: [...orders], total });
+      updatePendingOrders();
+      cancelOrder();
+      document.getElementById('confirm').innerHTML = `<i class="fa-solid fa-truck"></i> Đơn hàng đã gửi, đang chờ xử lý!`;
+    }
+  }
+
+  function cancelOrder() {
+    orders = [];
+    total = 0;
+    updateOrder();
+    document.getElementById('confirm').innerText = "Đơn hàng đã được hủy.";
+  }
+
+  function updatePendingOrders() {
+    document.getElementById('pendingList').innerHTML = pendingOrders.map(order => 
+      `<li>${order.items.join(', ')} - <strong>${order.total.toLocaleString()}đ</strong></li>`).join('');
+  }
+</script>
+
 </body>
 </html>
-
