@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Menu Quán Mì Cao Cấp</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Arial', sans-serif;
+      background: linear-gradient(to right, #ffe4b5, #ffcc99);
+    }
+
+    header {
+      background-color: #d35400;
+      color: white;
+      padding: 20px;
+      text-align: center;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    header img {
+      width: 60px;
+      vertical-align: middle;
+      margin-right: 10px;
+      animation: spin 4s infinite linear;
+    }
+
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    nav {
+      width: 280px;
+      background-color: #e67e22;
+      height: 100vh;
+      position: fixed;
+      padding: 20px;
+      overflow-y: auto;
+    }
+
+    nav h2 {
+      color: white;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    nav .menu-item {
+      background: #d35400;
+      color: white;
+      padding: 12px;
+      margin-bottom: 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      transition: transform 0.3s, background-color 0.3s;
+    }
+
+    nav .menu-item:hover {
+      transform: scale(1.05);
+      background-color: #b03a0f;
+    }
+
+    nav .menu-item i {
+      font-size: 24px;
+      margin-right: 12px;
+    }
+
+    nav .description {
+      font-size: 12px;
+      color: #fbdedb;
+      margin-top: 5px;
+    }
+
+    main {
+      margin-left: 320px;
+      padding: 30px;
+    }
+
+    #total, #confirm {
+      margin-top: 20px;
+      font-size: 24px;
+      font-weight: bold;
+      color: #c0392b;
+    }
+
+    #confirm {
+      color: #27ae60;
+      margin-top: 30px;
+    }
+
+    button {
+      padding: 12px 24px;
+      background-color: #27ae60;
+      border: none;
+      color: white;
+      font-size: 18px;
+      margin: 10px 10px 0 0;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    button:hover {
+      background-color: #1e8449;
+    }
+
+    #cancelBtn {
+      background-color: #c0392b;
+    }
+
+    #cancelBtn:hover {
+      background-color: #96281b;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <img src="logo.png" alt="Logo quán mì">
+  <span>Menu Quán Mì Cao Cấp</span>
+</header>
+
+<nav>
+  <h2>Thực Đơn:</h2>
+
+  <div class="menu-item" onclick="order('Mì bò', 50000)">
+    <i class="fa-solid fa-bowl-food"></i>
+    <div>
+      <strong>Mì bò - 50.000đ</strong>
+      <div class="description">Mì mềm, thịt bò hảo hạng, nước dùng đậm vị.</div>
+    </div>
+  </div>
+
+  <div class="menu-item" onclick="order('Mì gà', 45000)">
+    <i class="fa-solid fa-drumstick-bite"></i>
+    <div>
+      <strong>Mì gà - 45.000đ</strong>
+      <div class="description">Mì dai, thịt gà ta, nước dùng thanh ngọt.</div>
+    </div>
+  </div>
+
+  <div class="menu-item" onclick="order('Mì hải sản', 60000)">
+    <i class="fa-solid fa-shrimp"></i>
+    <div>
+      <strong>Mì hải sản - 60.000đ</strong>
+      <div class="description">Mực, tôm tươi ngon, nước dùng cay nhẹ.</div>
+    </div>
+  </div>
+
+  <div class="menu-item" onclick="order('Mì cay cấp 10', 55000)">
+    <i class="fa-solid fa-pepper-hot"></i>
+    <div>
+      <strong>Mì cay cấp 10 - 55.000đ</strong>
+      <div class="description">Thử thách vị giác với độ cay bùng nổ.</div>
+    </div>
+  </div>
+
+  <div class="menu-item" onclick="order('Nước ngọt', 20000)">
+    <i class="fa-solid fa-bottle-water"></i>
+    <div>
+      <strong>Nước ngọt - 20.000đ</strong>
+      <div class="description">Giải khát cực đã với nước ngọt mát lạnh.</div>
+    </div>
+  </div>
+
+  <div class="menu-item" onclick="order('Trà chanh', 15000)">
+    <i class="fa-solid fa-mug-hot"></i>
+    <div>
+      <strong>Trà chanh - 15.000đ</strong>
+      <div class="description">Thơm mát, chua nhẹ, cực sảng khoái.</div>
+    </div>
+  </div>
+
+</nav>
+
+<main>
+  <h1>Đơn hàng của bạn:</h1>
+  <ul id="orderList"></ul>
+  <div id="total">Tổng tiền: 0đ</div>
+  <button id="confirmBtn" onclick="confirmOrder()">Xác nhận giao hàng</button>
+  <button id="cancelBtn" onclick="cancelOrder()">Hủy đơn</button>
+  <div id="confirm"></div>
+</main>
+
+<script>
+  let total = 0;
+  let orders = [];
+
+  function order(item, price) {
+    orders.push(`${item} - ${price.toLocaleString()}đ`);
+    total += price;
+    updateOrder();
+  }
+
+  function updateOrder() {
+    document.getElementById('orderList').innerHTML = orders.map(o => `<li>${o}</li>`).join('');
+    document.getElementById('total').innerText = `Tổng tiền: ${total.toLocaleString()}đ`;
+    document.getElementById('confirm').innerText = '';
+  }
+
+  function confirmOrder() {
+    if (orders.length === 0) {
+      document.getElementById('confirm').innerText = "Bạn chưa chọn món nào!";
+    } else {
+      document.getElementById('confirm').innerHTML = `<i class="fa-solid fa-truck"></i> Đơn hàng đã xác nhận và đang giao!`;
+    }
+  }
+
+  function cancelOrder() {
+    orders = [];
+    total = 0;
+    updateOrder();
+    document.getElementById('confirm').innerText = "Đơn hàng đã được hủy.";
+  }
+</script>
+
+</body>
+</html>
