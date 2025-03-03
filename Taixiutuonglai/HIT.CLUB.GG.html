@@ -48,18 +48,6 @@
             margin: 0 10px;
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            position: relative;
-        }
-
-        .dice-cover {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: white;
-            border-radius: 50%;
-            transition: 0.5s ease;
         }
 
         .button-container {
@@ -143,38 +131,28 @@
             background-color: #d35400;
         }
 
-        .scoreboard {
-            margin-top: 20px;
-            font-size: 18px;
-        }
-
-        /* Nạp tiền */
-        .top-up-container {
-            margin-top: 30px;
-            font-size: 18px;
-        }
-
-        .top-up-button {
-            padding: 10px 20px;
+        /* Nút Nạp Tiền */
+        .deposit-button {
+            padding: 15px 30px;
             font-size: 18px;
             background-color: #f39c12;
             color: white;
             border: none;
             border-radius: 5px;
             cursor: pointer;
-            transition: background-color 0.3s;
+            margin-top: 30px;
         }
 
-        .top-up-button:hover {
+        .deposit-button:hover {
             background-color: #e67e22;
         }
     </style>
 </head>
 <body>
 
-    <!-- Nhạc nền: Hãy trao cho anh của Sơn Tùng M-TP -->
-    <audio id="music" loop autoplay>
-        <source src="https://www.youtube.com/watch?v=utTw_g4jkDw" type="audio/mpeg">
+    <!-- Nhạc nền -->
+    <audio id="music" loop>
+        <source src="https://www.youtube.com/watch?v=4Hk9OdR6Mc8" type="audio/mpeg">
         Your browser does not support the audio element.
     </audio>
 
@@ -202,18 +180,9 @@
 
         <!-- Hiển thị xúc xắc -->
         <div class="dice-container">
-            <div class="dice" id="dice1">
-                <div class="dice-cover"></div>
-                <span id="dice1-value">🎲</span>
-            </div>
-            <div class="dice" id="dice2">
-                <div class="dice-cover"></div>
-                <span id="dice2-value">🎲</span>
-            </div>
-            <div class="dice" id="dice3">
-                <div class="dice-cover"></div>
-                <span id="dice3-value">🎲</span>
-            </div>
+            <div class="dice" id="dice1">🎲</div>
+            <div class="dice" id="dice2">🎲</div>
+            <div class="dice" id="dice3">🎲</div>
         </div>
 
         <!-- Nút lắc xúc xắc -->
@@ -226,10 +195,10 @@
         <!-- Hiển thị số tiền hiện có -->
         <div class="score" id="score">Số tiền hiện tại: 100</div>
 
-        <!-- Nạp tiền -->
-        <div class="top-up-container">
-            <button class="top-up-button" onclick="topUp()">Nạp Tiền</button>
-        </div>
+        <!-- Nút Nạp Tiền -->
+        <a href="index.html">
+            <button class="deposit-button">Nạp Tiền</button>
+        </a>
     </div>
 
     <script>
@@ -240,7 +209,7 @@
         let gameTimer;
 
         // Bắt đầu nhạc nền
-        document.getElementById("music").play(https://www.youtube.com/watch?v=4Q2RMpE8s2Y);
+        document.getElementById("music").play();
 
         // Hàm để bắt đầu thời gian cược
         function startBettingTimer() {
@@ -251,75 +220,80 @@
                 document.getElementById("timer").textContent = `Còn ${timerValue} giây để cược`;
                 if (timerValue <= 0) {
                     clearInterval(gameTimer);
-                    document.getElementById("roll-button").style.display = "block"; // Cho phép lắc xúc xắc
+                    alert("Thời gian cược đã hết! Hãy lắc xúc xắc.");
                 }
             }, 1000);
         }
 
-        // Hàm đặt cược Tài hoặc Xỉu
-        function placeBet(betType) {
-            currentBet = betType;
-            document.getElementById("bet-selection-container").style.display = "none"; // Ẩn lựa chọn Tài/Xỉu
-            document.getElementById("bet-amount-container").style.display = "block"; // Hiện thị mức cược
-            startBettingTimer(); // Bắt đầu đếm thời gian cược
-        }
-
-        // Hàm chọn mức cược
+        // Hàm để chọn mức cược
         function setBetAmount(amount) {
-            currentBetAmount = amount;
-            document.getElementById("bet-amount-container").style.display = "none"; // Ẩn mức cược
-            document.getElementById("roll-button").style.display = "block"; // Hiện nút lắc xúc xắc
+            if (amount <= score) {
+                currentBetAmount = amount;
+                alert(`Bạn đã chọn cược ${amount} điểm`);
+                startBettingTimer();  // Bắt đầu đếm ngược
+                document.getElementById("roll-button").style.display = "inline-block";  // Hiển thị nút lắc
+            } else {
+                alert("Bạn không đủ điểm để cược mức này.");
+            }
         }
 
-        // Hàm lắc xúc xắc
-        function rollDice() {
-            // Ẩn xúc xắc và che lại
-            document.querySelectorAll(".dice-cover").forEach(cover => cover.style.opacity = "1");
+        // Hàm để đặt cược Tài/Xỉu
+        function placeBet(bet) {
+            currentBet = bet;
+            document.getElementById("bet-selection-container").style.display = "none";  // Ẩn các nút Tài/Xỉu
+            document.getElementById("bet-amount-container").style.display = "block";  // Hiện các mức cược
+        }
 
-            // Tạo số ngẫu nhiên cho xúc xắc
+        // Hàm để lắc xúc xắc và tính điểm
+        function rollDice() {
+            if (currentBet === null || currentBetAmount === 0) {
+                alert("Vui lòng chọn Tài/Xỉu và mức cược trước khi lắc xúc xắc!");
+                return;
+            }
+
+            // Sinh số ngẫu nhiên từ 1 đến 6 cho 3 xúc xắc
             let dice1 = Math.floor(Math.random() * 6) + 1;
             let dice2 = Math.floor(Math.random() * 6) + 1;
             let dice3 = Math.floor(Math.random() * 6) + 1;
 
-            // Ẩn các xúc xắc và hiển thị giá trị sau
-            setTimeout(() => {
-                document.getElementById("dice1-value").textContent = dice1;
-                document.getElementById("dice2-value").textContent = dice2;
-                document.getElementById("dice3-value").textContent = dice3;
-                document.querySelectorAll(".dice-cover").forEach(cover => cover.style.opacity = "0");
+            // Hiển thị điểm số của 3 xúc xắc
+            document.getElementById("dice1").textContent = dice1;
+            document.getElementById("dice2").textContent = dice2;
+            document.getElementById("dice3").textContent = dice3;
 
-                // Tính tổng điểm
-                let total = dice1 + dice2 + dice3;
-                let resultMessage = "";
-                let winMessage = "";
-                let earnings = 0;
+            // Tính tổng điểm
+            let total = dice1 + dice2 + dice3;
+            let resultMessage = "";
+            let winMessage = "";
+            let earnings = 0;
 
-                // Kiểm tra kết quả
-                if (total <= 10) {
-                    resultMessage = "Xỉu";
-                    winMessage = (currentBet === 'xiu') ? "Bạn thắng!" : "Bạn thua!";
-                    if (currentBet === 'xiu') {
-                        earnings = currentBetAmount * 0.98;  // Tính số tiền thắng
-                    }
-                } else {
-                    resultMessage = "Tài";
-                    winMessage = (currentBet === 'tai') ? "Bạn thắng!" : "Bạn thua!";
-                    if (currentBet === 'tai') {
-                        earnings = currentBetAmount * 0.98;
-                    }
+            // Kiểm tra kết quả
+            if (total <= 10) {
+                resultMessage = "Xỉu";
+                winMessage = (currentBet === 'xiu') ? "Bạn thắng!" : "Bạn thua!";
+                if (currentBet === 'xiu') {
+                    earnings = currentBetAmount * 0.98;  // Tính số tiền thắng
                 }
+            } else {
+                resultMessage = "Tài";
+                winMessage = (currentBet === 'tai') ? "Bạn thắng!" : "Bạn thua!";
+                if (currentBet === 'tai') {
+                    earnings = currentBetAmount * 0.98;  // Tính số tiền thắng
+                }
+            }
 
-                // Cập nhật kết quả và số tiền
-                score += (earnings - currentBetAmount);
-                document.getElementById("score").textContent = `Số tiền hiện tại: ${score}`;
-                document.getElementById("total-result").textContent = `Tổng điểm: ${total}`;
-                document.getElementById("game-message").textContent = `${winMessage} Bạn đã thắng ${earnings} điểm!`;
-            }, 2000);
-        }
+            // Hiển thị kết quả
+            document.getElementById("total-result").textContent = `Tổng điểm: ${total} (${resultMessage})`;
+            document.getElementById("game-message").textContent = winMessage;
+            document.getElementById("score").textContent = `Số tiền hiện tại: ${score + earnings}`;
 
-        // Hàm để nạp tiền
-        function topUp() {
-            window.location.href = "topup.html"; // Chuyển hướng đến trang nạp tiền
+            // Cập nhật điểm người chơi
+            score += earnings;
+
+            // Ẩn nút lắc sau khi chơi
+            document.getElementById("roll-button").style.display = "none";
+            document.getElementById("bet-amount-container").style.display = "none";
+            document.getElementById("bet-selection-container").style.display = "block";  // Hiện lại các nút Tài/Xỉu
         }
     </script>
 </body>
